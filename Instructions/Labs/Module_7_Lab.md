@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '7：管理 Azure 基于角色的访问控制'
     module: '模块 7：实现和管理 Azure 治理'
@@ -29,7 +29,7 @@ Adatum 企业体系结构团队希望使用自定义的基于角色的访问控�
   
 Windows Server 管理员凭据
 
--  用户名：**学生**
+-  用户名：**Student**
 
 -  密码：**Pa55w.rd1234**
 
@@ -60,7 +60,7 @@ Windows Server 管理员凭据
 
 #### 任务 1：使用 Azure 资源管理器模板部署 Azure VM
 
-1. 在实验室计算机上，启动 Web 浏览器，导航至“Azure 门户”[](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
+1. 在实验室计算机上，启动 Web 浏览器，导航至 [Azure 门户](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
 
 1. 在 Azure 门户中，通过直接选择搜索文本框右侧的工具栏图标打开 **“Cloud Shell”** 窗格。
 
@@ -191,14 +191,14 @@ Windows Server 管理员凭据
 
 1. 在“Cloud Shell”窗格中，将 Azure 资源管理器模板 **“\\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json”** 上传至主目录。
 
-1. 在“Cloud Shell”窗格中运行下列命令，使用 Azure 订阅的 ID 值替换“SUBSCRIPTION_ID” 占位符：
+1. 在“Cloud Shell”窗格中运行下列命令，使用 Azure 订阅的 ID 值替换`SUBSCRIPTION_ID` 占位符：
 
    ```powershell
    $subscription_id = (Get-AzContext).Subscription.id
    (Get-Content -Path $HOME/roledefinition30311.json) -Replace 'SUBSCRIPTION_ID', "$subscription_id" | Set-Content -Path $HOME/roledefinition30311.json
    ```
 
-1. 在“Cloud Shell”窗格中运行下列命令，以验证已使用 Azure 订阅的 ID 值替换“SUBSCRIPTION_ID”占位符：
+1. 在“Cloud Shell”窗格中运行下列命令，以验证已使用 Azure 订阅的 ID 值替换`SUBSCRIPTION_ID`占位符：
 
    ```powershell
    Get-Content -Path $HOME/roledefinition30311.json

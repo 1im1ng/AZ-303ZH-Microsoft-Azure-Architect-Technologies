@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '9：使用 Azure Site Recovery 保护 Hyper-V VM'
     module: '模块 9：在 Azure 中管理工作负载'
@@ -32,7 +32,7 @@ Adatum Enterprise 体系结构团队希望评估将用于保护本地 Hyper-V �
 
 Windows Server 管理员凭据
 
--  用户名：**学生**
+-  用户名：**Student**
 
 -  密码：**Pa55w.rd1234**
 
@@ -94,7 +94,7 @@ Windows Server 管理员凭据
     | 主机网络界面 1 名 | **az30307a-hv-vm-nic1** |
     | 主机网络界面 2 名 | **az30307a-hv-vm-nic2** |
     | 主机虚拟机名 | **az30307a-hv-vm** |
-    | 主机管理员用户名 | **学生** |
+    | 主机管理员用户名 | **Student** |
     | 主机管理员密码 | **Pa55w.rd1234** |
 
 1. 在 **“具有嵌套 VM 的 Hyper-V 主机虚拟机”** 边栏选项卡上，选择复选框 **“我同意上述条款和条件”**，然后选择 **“购买”**。
@@ -125,7 +125,7 @@ Windows Server 管理员凭据
 
 1. 出现提示时，请使用以下凭据登录：
 
--  用户名：**学生**
+-  用户名：**Student**
 
 -  密码：**Pa55w.rd1234**
 
@@ -188,7 +188,7 @@ Windows Server 管理员凭据
 
 #### 任务 1：创建 Azure Site Recovery 保管库
 
-1. 在与 **“az30307a-hv-vm”** 的远程桌面会话中，启动 Internet Explorer，导航至“Azure 门户”[](https://portal.azure.com)，然后通过提供你将在本实验室使用的订阅中具有所有者角色的用户帐户凭据来登录。
+1. 在与 **“az30307a-hv-vm”** 的远程桌面会话中，启动 Internet Explorer，导航至 [Azure 门户](https://portal.azure.com)，然后通过提供你将在本实验室使用的订阅中具有所有者角色的用户帐户凭据来登录。
 
 1. 在 Azure 门户中，搜索并选择 **“恢复服务保管库”**，然后在 **“恢复服务保管库”** 边栏选项卡上，选择 **“+ 添加”**。
 
