@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '5：实现和配置 Azure 存储文件和 Blob 服务'
     module: '模块 5：实现存储帐户'
