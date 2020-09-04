@@ -2,7 +2,7 @@
 
 # AZ-303：GitHub 中的实验室文件名 
 
-**源存储库：**[https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies) 
+**源存储库：**[https://github.com/MicrosoftLearning/AZ-303ZH-Microsoft-Azure-Architect-Technologies](https://github.com/MicrosoftLearning/AZ-303ZH-Microsoft-Azure-Architect-Technologies) 
 
 **模块 4 实验室** 
 

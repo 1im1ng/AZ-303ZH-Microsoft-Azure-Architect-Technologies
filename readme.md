@@ -1,7 +1,7 @@
 ﻿# AZ-303：Microsoft Azure 架构师技术
 
 - **[以 HTML 格式链接到 LABS](https://microsoftlearning.github.io/AZ-303ZH-Microsoft-Azure-Architect-Technologies/)**
-- **[下载最新的学生手册和 AllFiles 内容](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies/archive/master.zip)**
+- **[下载最新的学生手册和 AllFiles 内容](https://github.com/MicrosoftLearning/AZ-303ZH-Microsoft-Azure-Architect-Technologies/archive/master.zip)**
 - **你是 MCT 吗？** - 请查看[适用于 MCT 的 GitHub 用户指南](https://microsoftlearning.github.io/MCT-User-Guide-ZH/)
 - **是否需要手动生成实验说明？** - 可在 [MicrosoftLearning/Docker-Build](https://github.com/MicrosoftLearning/Docker-Build) 存储库中找到说明
 
