@@ -1,4 +1,4 @@
----
+﻿---
 title: 在线托管说明
 permalink: index.html
 layout: home
@@ -6,7 +6,7 @@ layout: home
 
 # 内容目录
 
-完成实验室所需的文件可以[在此下载](https://github.com/MicrosoftLearning/AZ-303-Microsoft-Azure-Architect-Technologies/archive/master.zip)
+完成实验室所需的文件可以[在此下载](https://github.com/MicrosoftLearning/AZ-303ZH-Microsoft-Azure-Architect-Technologies/archive/master.zip)
 
 以下列出了每个实验室练习的超链接。
 
