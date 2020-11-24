@@ -1,10 +1,10 @@
----
+﻿---
 lab:
-    title: '4：实现高可用性 Azure IaaS 计算体系结构'
+    title: '4: 实现高可用性 Azure IaaS 计算体系结构'
     module: '模块 4：实现负载均衡和网络安全'
 ---
 
-# 实验室: 实现高可用性 Azure IaaS 计算体系结构
+# 实验室：实现高可用性 Azure IaaS 计算体系结构
 # 学生实验室手册
 
 ## 实验室场景
@@ -35,7 +35,7 @@ Azure 虚拟机规模集使你能够创建和管理一组相同、负载均衡�
   
 完成本实验室后，你将能够：
 
--  描述位于 Azure 基本负载均衡器后面的相同可用性集中的高可用性 Azure VM 的特征
+-  描述驻留在 Azure 基本负载均衡器后面的相同可用性集中的高可用性 Azure VM 的特征
 
 -  描述位于 Azure 标准负载均衡器后面不同可用性区域中的高可用性 Azure VM 的特征
 
@@ -50,7 +50,7 @@ Windows Server 管理员凭据
 
 -  用户名： **Student**
 
--  密码： **Pa55w.rd1234**
+-  密码：**Pa55w.rd1234**
 
 预计用时：120 分钟
 
@@ -89,33 +89,36 @@ Windows Server 管理员凭据
 
 #### 任务 1：使用 Azure 资源管理器模板将高可用性 Azure VM 部署到 Azure 负载均衡器基础版之后的可用性集中
 
-1. 在实验室计算机上，启动 Web 浏览器，导航至 [Azure 门户](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
+1. 在实验室计算机上，启动 Web 浏览器，导航至 [“Azure 门户”](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
 
 1. 在 Azure 门户中，通过选择搜索文本框右侧的工具栏图标打开 **Cloud Shell** 窗格。
 
 1. 提示你选择 **“Bash”** 还是 **“PowerShell”** 时，请选择 **“Bash”**。 
 
-    >**注意**： 如果这是你第一次打开 **“Cloud Shell”**，会看到 **“未装载任何存储”** 消息，请选择你在本实验室中使用的订阅，然后选择 **“创建存储”**。 
+    > **注意**：如果这是你第一次打开 **“Cloud Shell”**，会看到 **“未装载任何存储”** 消息，请选择你在本实验室中使用的订阅，然后选择 **“创建存储”**。 
     
 1. 在“Cloud Shell”窗格中运行以下命令，以注册 Microsoft.Insights 资源提供程序，为本实验室后面的练习做准备：
 
-   ```sh
+   ```Bash
    az provider register --namespace 'Microsoft.Insights'
    ```
 
 1. 在 Cloud Shell 窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301suba.json** 上传到 Cloud Shell 主目录中。
 
-1. 在 Cloud Shell 窗格中，运行以下命令以创建资源组（将`<Azure region>`占位符替换为可用于在订阅中部署 Azure VM 的 Azure 区域的名称，该名称最接近实验室计算机的位置）：
+1. 在 Cloud Shell 窗格中，运行以下命令以创建资源组（将 `<Azure region>` 占位符替换为可用于在订阅中部署 Azure VM 的 Azure 区域的名称，该名称最接近实验室计算机的位置）：
 
-   ```sh
+   ```Bash
    LOCATION='<Azure region>'
+   ```
+   
+   ```Bash
    az deployment sub create \
    --location $LOCATION \
    --template-file azuredeploy30301suba.json \
    --parameters rgName=az30301a-labRG rgLocation=$LOCATION
    ```
 
-      > **注**： 若要确定可预配 Azure VM 的 Azure 区域，请参阅 [**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
+      > **备注**：若要标识可在其中预配 Azure VM 的 Azure 区域，请参阅 [**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rga.json**。
 
@@ -123,14 +126,14 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，运行以下命令以将 Azure 负载均衡器基本版及其后端池（由一对托管 Windows Server 2019 数据中心核心的 Azure VM 组成）部署到同一可用性集中：
 
-   ```sh
+   ```Bash
    az deployment group create \
    --resource-group az30301a-labRG \
    --template-file azuredeploy30301rga.json \
    --parameters @azuredeploy30301rga.parameters.json
    ```
 
-    > **注意**： 等待部署完成后再继续下一个任务。该操作需约 10 分钟。
+    > **注意**：等待部署完成后再继续下一个任务。该操作需约 10 分钟。
 
 1. 在 Azure 门户中，关闭 **“Cloud Shell”** 窗格。 
 
@@ -160,11 +163,15 @@ Windows Server 管理员凭据
     | 虚拟机 | **az30301a-vm0** |
     | 网络接口 | **az30301a-nic0** |
 
-1. 查看关联的网络安全组和有效的安全规则，其中包括允许通过 RDP 和 HTTP 进行入站连接的两个自定义规则。 
+1. 查看关联的网络安全组和有效的安全规则，其中包括允许通过 RDP 和 HTTP 进行入站连接的两个自定义规则。  
 
+    > **注意**：或者，你可以从以下位置查看 **“有效的安全规则”**：
+    - **“az30301a-nic0”** 网络接口边栏选项卡。
+    - **“az30301a-web-nsg”** 网络安全组边栏选项卡 
+    
 1. 在 **“网络观察程序”** 边栏选项卡上，选择 **“连接疑难解答”**。
 
-    > **注意**： 目的是验证同一可用性集中两个 Azure VM 的接近度（以网络术语而言）。
+    > **注意**：目的是验证同一可用性集中两个 Azure VM 的接近度（以网络术语而言）。
 
 1. 在 **“网络观察程序 \| 连接疑难解答”** 边栏选项卡上，指定以下设置并选择 **“检查”**：
 
@@ -180,11 +187,11 @@ Windows Server 管理员凭据
     | 协议 | **TCP** |
     | 目标端口| **80** |
 
-    > **注意**：需要等待几分钟才能得到结果，以便在 **Azure VM 上安装 Azure 网络观察程序代理** VM 扩展。
+    > **注意**：需要等待几分钟才能得到结果，以便在 Azure VM 上安装 **Azure 网络观察程序代理** VM 扩展。
 
 1. 查看结果，并记下 Azure VM 之间的网络连接延迟。
 
-    > **注意**： 由于两个 VM 都在同一可用性集中（在同一 Azure 数据中心内），延迟应为约 1 毫秒。
+    > **注意**：由于两个 VM 都在同一可用性集中（在同一 Azure 数据中心内），延迟应为约 1 毫秒。
 
 1. 在 Azure 门户中，导航到 **“az30301a-labRG”** 资源组边栏选项卡，在资源列表中，选择 **“az30301a-avset”** 可用性集条目，在 **“az30301a-avset”** 边栏选项卡上，注意容错域并更新分配给两个 Azure VM 的域值。
 
@@ -194,11 +201,11 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，运行以下命令以测试流向 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量的负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
-    > **注意**： 验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
+    > **注意**：验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
 
 1. 在 **“az30301a-lb”** 边栏选项卡上，选择 **“负载均衡规则”** 条目，在 **“az30301a-lb \| 负载均衡规则”** 边栏选项卡上，选择代表处理 HTTP 流量的负载均衡规则的 **“az303001a-lbruletcp80”** 条目。 
 
@@ -206,29 +213,29 @@ Windows Server 管理员凭据
 
 1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向无会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
-    > **注意**： 验证返回的消息是否表明正在将请求传递到相同的后端 Azure VM
+    > **注意**：验证返回的消息是否表明正在将请求传递到相同的后端 Azure VM
 
 1. 在 Azure 门户中，导航回 **“az30301a-lb”** 边栏选项卡，选择 **“入站 NAT 规则”** 条目，并记下两个规则，这些规则允许经由 TCP 端口 33890 和 33891 通过远程桌面分别连接到第一个和第二个后端池 VM。 
 
 1. 在 Cloud Shell 窗格中，运行以下命令以测试通过 NAT 到 Azure 负载均衡器后端池中第一个 Azure VM 的远程桌面连接（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33890
    ```
 
-    > **注意**： 验证返回的消息是否表明你已成功连接。 
+    > **注意**：验证返回的消息是否表明你已成功连接。 
 
 1. 按 **Ctrl+C** 组合键以返回 Bash shell 提示符，并运行以下命令以测试通过 NAT 到 Azure 负载均衡器后端池中第二个 Azure VM 的远程桌面连接（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器的前端 IP 地址）：
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33891
    ```
 
-    > **注意**： 验证返回的消息是否表明你已成功连接。 
+    > **注意**：验证返回的消息是否表明你已成功连接。 
 
 1. 按 **Ctrl+C** 组合键，返回 Bash shell 提示符。
 
@@ -237,11 +244,11 @@ Windows Server 管理员凭据
 
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301a-')]".name --output tsv
    ```
 
-    > **注意**： 验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
+    > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
 
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
@@ -252,7 +259,7 @@ Windows Server 管理员凭据
 1. 关闭“Cloud Shell”窗格。
 
 
-### 练习2：使用可用性区域和 Azure 标准负载均衡器实现和分析高可用性 Azure VM 部署
+### 练习 2： 使用可用性区域和 Azure 标准负载均衡器实现和分析高可用性 Azure VM 部署
   
 本次练习的主要任务如下：
 
@@ -269,32 +276,35 @@ Windows Server 管理员凭据
 
 1. 提示你选择 **“Bash”** 还是 **“PowerShell”** 时，请选择 **“Bash”**。 
 
-1. 在 Cloud Shell 窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subb.json** 上传到 Cloud Shell 主目录中。
+1. 在 Cloud Shell 窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件  **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subb.json** 上传到 Cloud Shell 主目录中。
 
 1. 在 Cloud Shell 窗格中运行以下命令创建资源组（将 `<Azure region>` 占位符替换为订阅中可用且最接近实验室位置的 Azure 区域名称）：
 
-   ```sh
+   ```Bash
    LOCATION='<Azure region>'
+   ```
+   
+   ```Bash
    az deployment sub create \
    --location $LOCATION \
    --template-file azuredeploy30301subb.json \
    --parameters rgName=az30301b-labRG rgLocation=$LOCATION
    ```
 
-1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rgb.json**。
+1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板  **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rgb.json**。
 
-1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rgb.parameters.json**。
+1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件  **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301rgb.parameters.json**。
 
 1. 在“Cloud Shell”窗格中运行以下命令，部署 Azure 负载均衡器标准版及其后端池，该后端池由跨两个可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成：
 
-   ```sh
+   ```Bash
    az deployment group create \
    --resource-group az30301b-labRG \
    --template-file azuredeploy30301rgb.json \
    --parameters @azuredeploy30301rgb.parameters.json
    ```
 
-    > **注意**： 等待部署完成后再继续下一个任务。该操作需约 10 分钟。
+    > **注意**：等待部署完成后再继续下一个任务。该操作需约 10 分钟。
 
 1. 在 Azure 门户中，关闭 Cloud Shell 窗格。 
 
@@ -313,8 +323,8 @@ Windows Server 管理员凭据
 
 1. 查看结果拓扑关系图，注意公用 IP 地址、负载均衡器及其后端池中 Azure VM 网络适配器之间的连接。
 
-    > **注意**： 该图实际上与上一练习中看到的图完全相同，因为尽管 Azure VM 位于不同区域（实际上是 Azure 数据中心），但它们位于同一子网中。
-
+    > **注意**：该图实际上与上一练习中看到的图完全相同，因为尽管 Azure VM 位于不同区域（实际上是 Azure 数据中心），但它们位于同一子网中。
+    
 1. 在 **“网络观察程序”** 边栏选项卡上，选择 **“有效安全规则”**。
 
 1. 在 **“网络观察程序 \| 有效安全规则”** 边栏选项卡上，指定以下设置：
@@ -328,11 +338,15 @@ Windows Server 管理员凭据
 
 1. 查看关联的网络安全组和有效的安全规则，其中包括允许通过 RDP 和 HTTP 进行入站连接的两个自定义规则。 
 
-    > **注意**： 该列表实际上也与你在上一练习中看到的列表完全相同，通过使用与两个 Azure VM 都连接到的子网相关联的网络安全组来实现网络级保护。但是请记住，由于本例使用了 Azure 负载均衡器标准版 SKU（在使用基本版 SKU 时，NSG 是可选的），HTTP 和 RDP 流量需要网络安全组才能到达后端池 Azure VM。
+    > **注意**：该列表实际上也与你在上一练习中看到的列表完全相同，通过使用与两个 Azure VM 都连接到的子网相关联的网络安全组来实现网络级保护。但是请记住，由于本例使用了 Azure 负载均衡器标准版 SKU（在使用基本版 SKU 时，NSG 是可选的），HTTP 和 RDP 流量需要网络安全组才能到达后端池 Azure VM。  
+    
+    > **注意**：或者，你可以从以下位置查看 **“有效的安全规则”**：
+    -  **“az30301a-nic0”** 网络接口边栏选项卡。
+    -  **“az30301a-web-nsg”** 网络安全组边栏选项卡 
 
 1. 在 **“网络观察程序”** 边栏选项卡上，选择 **“连接疑难解答”**。
 
-    > **注意**： 目的是验证同一可用性集中两个 Azure VM 的接近度（以网络术语而言）。
+    > **注意**：目的是验证同一可用性集中两个 Azure VM 的接近度（以网络术语而言）。
 
 1. 在 **“网络观察程序 \| 连接疑难解答”** 边栏选项卡上，指定以下设置并选择 **“检查”**：
 
@@ -348,7 +362,7 @@ Windows Server 管理员凭据
     | 协议 | **TCP** |
     | 目标端口| **80** |
 
-    > **注意**： 需要等待几分钟才能得到结果，以便在 **Azure VM 上安装 Azure 网络观察程序代理** VM 扩展。
+    > **注意**：需要等待几分钟才能得到结果，以便在 Azure VM 上安装 **Azure 网络观察程序代理** VM 扩展。
 
 1. 查看结果，并记下 Azure VM 之间的网络连接延迟。
 
@@ -358,7 +372,7 @@ Windows Server 管理员凭据
 
 1. 在 Azure 门户中，导航到 **“az30301b-labRG”** 资源组边栏选项卡，在资源列表中，选择 **“az30301b-vm1”** 虚拟机条目，在 **“az30301b-vm1”** 边栏选项卡上，记录 **“位置”** 和 **“可用性区域”** 条目。 
 
-    > **注意**： 查看的条目证实了每个 Azure VM 位于不同的可用性区域。
+    > **注意**：查看的条目证实了每个 Azure VM 位于不同的可用性区域。
 
 1. 在 Azure 门户中，导航到 **“az30301b-labRG”** 资源组边栏选项卡，然后在资源列表中选择 **“az30301b-lb”** 负载均衡器条目，在 **“az30301b-lb”** 边栏选项卡上，记录公共 IP 地址条目。
 
@@ -366,11 +380,11 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，运行以下命令以测试流向 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量的负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
-    > **注意**： 验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
+    > **注意**：验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
 
 1. 在 **“az30301b-lb”** 边栏选项卡上，选择 **“负载均衡规则”** 条目，在 **“az30301b-lb \| 负载均衡规则”** 边栏选项卡上，选择代表处理 HTTP 流量的负载均衡规则的 **“az303001b-lbruletcp80”** 条目。 
 
@@ -378,39 +392,39 @@ Windows Server 管理员凭据
 
 1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向无会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
    ```
 
-    > **注意**： 验证返回的消息是否表明正在将请求传递到相同的后端 Azure VM
+    > **注意**：验证返回的消息是否表明正在将请求传递到相同的后端 Azure VM
 
 1. 在 Azure 门户中，导航回 **“az30301b-lb”** 边栏选项卡，选择 **“入站 NAT 规则”** 条目，并记下两个规则，这些规则允许经由 TCP 端口 33890 和 33891 通过远程桌面分别连接到第一个和第二个后端池 VM。 
 
 1. 在 Cloud Shell 窗格中，运行以下命令以测试通过 NAT 到 Azure 负载均衡器后端池中第一个 Azure VM 的远程桌面连接（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33890
    ```
 
-    > **注意**： 验证返回的消息是否表明你已成功连接。 
+    > **注意**：验证返回的消息是否表明你已成功连接。 
 
 1. 按 **Ctrl+C** 组合键以返回 Bash shell 提示符，并运行以下命令以测试通过 NAT 到 Azure 负载均衡器后端池中第二个 Azure VM 的远程桌面连接（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器的前端 IP 地址）：
 
-   ```sh
+   ```Bash
    curl -v telnet://<lb_IP_address>:33891
    ```
 
-    > **注意**： 验证返回的消息是否表明你已成功连接。 
+    > **注意**：验证返回的消息是否表明你已成功连接。 
 
 1. 请按下 **Ctrl+C** 组合键以返回到 Bash shell 提示符，然后关闭“Cloud Shell”窗格。
 
 1. 在 **“az30301b-lb”** 边栏选项卡上，选择 **“负载均衡规则”** 条目，在 **“az30301b-lb \| 负载均衡规则”** 边栏选项卡上，选择代表处理 HTTP 流量的负载均衡规则的 **“az303001b-lbruletcp80”** 条目。 
 
-1. 在 **“az303001b-lbruletcp80”** 边栏选项卡的 **“创建隐式出站规则”** 部分，选择 **“无”**，然后选择 **“保存”**。
+1. 在 **“az303001b-lbruletcp80”** 边栏选项卡上的 **“出站源网络地址转换 (SNAT)”** 部分，选择 **“（推荐）使用出站规则为后端池成员提供对 Internet 的访问”**，然后选择 **“保存”**。
 
 1. 导航回 **“az30301b-lb”** 边栏选项卡，选择 **“出站规则”** 条目，然后在 **“az30301b-lb \| “出站规则”** 边栏选项卡中，选择 **“+ 添加”**。
 
-1. 在 **“添加出站规则”** 边栏选项卡中，指定以下设置并选择 **“添加”** （将所有其他设置保留为其默认值）：
+1. 在 **“添加出站规则”** 边栏选项卡中，指定以下设置并选择 **“添加”**（将所有其他设置保留为其默认值）：
 
     | 设置 | 数值 | 
     | --- | --- |
@@ -421,7 +435,7 @@ Windows Server 管理员凭据
     | 选择方式 | **最大后端实例数** |
     | 最大后端实例数 | **3** |
 
-    > **注意**：Azure 负载均衡器标准允许为出站流量指定专属的前端 IP 地址（在分配了多个前端 IP 地址的情况下）。
+    > **注意**： Azure 负载均衡器标准允许为出站流量指定专属的前端 IP 地址（在分配了多个前端 IP 地址的情况下）。
 
 1. 在 Azure 门户中，导航到 **“az30301b-labRG”** 资源组边栏选项卡，在资源列表中选择 **“az30301b-vm0”** 虚拟机条目，并在 **“az30301b-vm0”** 边栏选项卡的 **“操作”** 边栏选项卡中，选择 **“运行命令”**。
 
@@ -433,7 +447,7 @@ Windows Server 管理员凭据
    (Invoke-RestMethod -Uri "http://ipinfo.io").IP
    ```
 
-    > **注意**： 此命令将返回从其中发出 Web 请求的公共 IP 地址。
+    > **注意**：此命令将返回从其中发出 Web 请求的公共 IP 地址。
 
 1. 查看输出结果并验证其与分配给 Azure 负载均衡器标准前端的公共 IP 地址是否匹配，你已将该 IP 地址分配给出站负载均衡规则。
 
@@ -444,15 +458,15 @@ Windows Server 管理员凭据
 
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301b-')]".name --output tsv
    ```
 
-    > **注意**： 验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
+    > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
 
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301b-')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
@@ -476,11 +490,11 @@ Windows Server 管理员凭据
 
 1. 提示你选择 **“Bash”** 还是 **“PowerShell”** 时，请选择 **“Bash”**。 
 
-1. 在 Cloud Shell 窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件 **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subc.json** 上传到 Cloud Shell 主目录中。
+1. 在 Cloud Shell 窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件  **\\\\AZ303\\AllFiles\\Labs\\01\\azuredeploy30301subc.json** 上传到 Cloud Shell 主目录中。
 
 1. 在 Cloud Shell 窗格中运行以下命令创建资源组（将 `<Azure region>` 占位符替换为订阅中可用且最接近实验室位置的 Azure 区域名称）：
 
-   ```sh
+   ```Bash
    az deployment sub create --location '<Azure region>' --template-file azuredeploy30301subc.json --parameters rgName=az30301c-labRG rgLocation='<Azure region>'
    ```
 
@@ -494,7 +508,7 @@ Windows Server 管理员凭据
    az deployment group create --resource-group az30301c-labRG --template-file azuredeploy30301rgc.json --parameters @azuredeploy30301rgc.parameters.json
    ```
 
-    > **注意**： 等待部署完成后再继续下一个任务。该操作需约 10 分钟。
+    > **注意**：等待部署完成后再继续下一个任务。该操作需约 10 分钟。
 
 1. 在 Azure 门户中，关闭 Cloud Shell 窗格。 
 
@@ -515,13 +529,13 @@ Windows Server 管理员凭据
 
     > **注意**： 此外，部署 Azure 应用程序网关需要一个如关系图中所示的专用子网（尽管未显示网关）。
 
-    > **注意**： 在这种配置中，无法使用网络观察程序查看有效的网络安全规则（这是 Azure VM 与 Azure VM 规模集实例之间的区别之一）。同样，尽管可以使用 **连接故障排除** 测试来自 Azure 应用程序网关的连接，但是不能依赖使用它来测试来自 Azure VM 规模集实例的网络连接。
+    > **注意**：在这种配置中，无法使用网络观察程序查看有效的网络安全规则（这是 Azure VM 与 Azure VM 规模集实例之间的区别之一）。同样，尽管可以使用**连接故障排除**测试来自 Azure 应用程序网关的连接，但是不能依赖使用它来测试来自 Azure VM 规模集实例的网络连接。
 
 1. 在 Azure 门户中，导航到 **“az30301c-labRG"** 资源组边栏选项卡，在资源列表中，选择 **“az30301c-vmss”** 虚拟机规模集条目。 
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，记录**位置**和**容错域**条目。 
 
-    > **注意**： 与 Azure VM 不同，Azure VM 规模集的各个实例部署到单独的容错域中，包括部署在同一区域中的实例。此外，它们支持 5 个容错域（与 Azure VM 最多可以使用 3 个容错域不同）。 
+    > **注意**：与 Azure VM 不同，Azure VM 规模集的各个实例部署到单独的容错域中，包括部署在同一区域中的实例。此外，它们支持 5 个容错域（与 Azure VM 最多可以使用 3 个容错域不同）。 
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“实例”**，在 **“az30301c-vmss \| “实例”** 边栏选项卡中，选择第一个实例，然后通过查看**位置**属性的值确定其可用区域 。 
 
@@ -533,15 +547,15 @@ Windows Server 管理员凭据
 
 1. 在 Azure 门户中的 Cloud Shell 窗格中启动 **Bash** 会话。 
 
-1. 在“Cloud Shell”窗格中，运行以下命令以测试到 Azure 应用程序网关后端池中 Azure VM 规模集实例的 HTTP 流量的负载均衡情况（将 `<lb_IP_address> `占位符替换为你之前标识的网关前端的 IP 地址）：
+1. 在“Cloud Shell”窗格中，运行以下命令以测试到 Azure 应用程序网关后端池中 Azure VM 规模集实例的 HTTP 流量的负载均衡情况（将 `<lb_IP_address>` 占位符替换为你之前标识的网关前端的 IP 地址）：
 
-   ```sh
-   for i in {1..4}; do curl <lb_IP_address>; done
+   ```Bash
+   for i in {1..4}; do curl <appgw_IPaddress>; done
    ```
 
-    > **注意**： 验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
+    > **注意**：验证返回的消息是否表明正在以轮询的方式将请求传递到后端 Azure VM
 
-1. 在 **“az30301c-appgw”** 边栏选项卡中，选择 **“HTTP 设置”** 条目，然后在 **“az30301c-appgw \| “HTTP 设置”** 边栏选项卡中，选择代表处理 HTTP 流量的负载均衡规则的  **“appGwBackentHttpSettings”** 条目。 
+1. 在 **“az30301c-appgw”** 边栏选项卡中，选择 **“HTTP 设置”** 条目，然后在 **“az30301c-appgw \| “HTTP 设置”** 边栏选项卡中，选择代表处理 HTTP 流量的负载均衡规则的 **“appGwBackentHttpSettings”** 条目。 
 
 1. 在 **“appGwBackentHttpSettings”** 边栏选项卡中，请在不进行任何更改的情况下查看现有设置，并注意你可以启用**基于 Cookie 的相关性**。
 
@@ -573,9 +587,9 @@ Windows Server 管理员凭据
     | 实例限制（最大） | **3** |
     | 实例限制（默认） | **1** |
 
-1. 选择 “**+ 添加规则**”。
+1. 选择“**+ 添加规则**”。
 
-1. 在 **“缩放规则”** 边栏选项卡上，指定以下设置并选择 **“添加”** （将其他设置保留为默认值）：
+1. 在 **“缩放规则”** 边栏选项卡上，指定以下设置并选择 **“添加”**（将其他设置保留为默认值）：
 
     | 设置 | 数值 | 
     | --- | --- |
@@ -584,7 +598,7 @@ Windows Server 管理员凭据
     | 指标名称 | **CPU 百分比** |
     | VMName 运算符 | **=** |
     | 维度值 | **已选择 2** |
-    | 启用除以实例数后的指标 | **启用** |
+    | 启用除以实例数后的指标 | **已启用** |
     | 运算符 | **大于** |
     | 触发缩放操作的指标阈值 | **1** |
     | 持续时间（以分钟为单位） | **1** |
@@ -593,11 +607,11 @@ Windows Server 管理员凭据
     | 实例计数 | **1** |
     | 冷却（分钟） | **5** |
 
-    > **注意**： 这些值是为实验室目的而严格选择的，以便尽快触发缩放。有关 Azure VM 规模集缩放的指导，请参阅 [Microsoft Docs](https://docs.microsoft.com/zh-cn/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview)。 
+    > **注意**：这些值是为实验室目的而严格选择的，以便尽快触发缩放。有关 Azure VM 规模集缩放的指导，请参阅 [Microsoft Docs](https://docs.microsoft.com/zh-cn/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview)。 
 
 1. 回到 **“az30301c-vmss \| 缩放”** 边栏选项卡，选择 **“+ 添加规则”**。
 
-1. 在 **“缩放规则”** 边栏选项卡上，指定以下设置并选择 **“添加”** （将其他设置保留为默认值）：
+1. 在 **“缩放规则”** 边栏选项卡上，指定以下设置并选择 **“添加”**（将其他设置保留为默认值）：
 
     | 设置 | 数值 | 
     | --- | --- |
@@ -606,7 +620,7 @@ Windows Server 管理员凭据
     | 指标名称 | **CPU 百分比** |
     | VMName 运算符 | **=** |
     | 维度值 | **已选择 2** |
-    | 启用除以实例数后的指标 | **启用** |
+    | 启用除以实例数后的指标 | **已启用** |
     | 运算符 | **小于** |
     | 触发缩放操作的指标阈值 | **1** |
     | 持续时间（以分钟为单位） | **1** |
@@ -615,37 +629,37 @@ Windows Server 管理员凭据
     | 实例计数 | **1** |
     | 冷却（分钟） | **5** |
 
-1. 回到  **“az30301c-vmss |  缩放”** 边栏选项卡，选择  **“保存”**。
+1. 回到 **“az30301c-vmss | 缩放”** 边栏选项卡，选择 **“保存”**。
 
 
 #### 任务 2：测试 Azure VM 规模集的自动缩放
 
-1. 在 Azure 门户中的 Cloud Shell 窗格中启动  **Bash** 会话。 
+1. 在 Azure 门户中的 Cloud Shell 窗格中启动 **Bash** 会话。 
 
 1. 在 Cloud Shell 窗格中，运行以下命令以触发 Azure 应用程序网关后端池中 Azure VM 规模集实例的自动缩放（将 `<lb_IP_address>` 占位符替换为你之前确定的网关前端 IP 地址）：
 
-   ```sh
+   ```Bash
    for (( ; ; )); do curl -s <lb_IP_address>?[1-10]; done
    ```
 1. 在 Azure 门户中的 **“az30301c-vmss”** 边栏选项卡上，查看 **“CPU（平均）”** 图表，并验证应用程序网关的 CPU 使用率是否增加到足以触发横向扩展。
 
-    > **注意**： 你可能需要等待几分钟。
+    > **注意**：你可能需要等待几分钟。
 
 1. 在 **“az30301c-vmss”** 边栏选项卡上，选择 **“实例”** 条目并验证实例数量已增加。
 
-    > **注意**： 你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
+    > **注意**：你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
 
-    > **注意**： 你可能会看到实例数量增加了 2 个（而不是 1 个）。只要最终运行的实例数为 3，这就是预料之中的。 
+    > **注意**：你可能会看到实例数量增加了 2 个（而不是 1 个）。只要最终运行的实例数为 3，这就是预料之中的。 
 
 1. 在 Azure 门户中，关闭 **“Cloud Shell”** 窗格。 
 
 1. 在 Azure 门户中的 **“az30301c-vmss”** 边栏选项卡上，查看 **“CPU（平均）”** 图表，并验证应用程序网关的 CPU 使用率是否降低到足以触发横向缩减。 
 
-    > **注意**： 你可能需要等待几分钟。
+    > **注意**：你可能需要等待几分钟。
 
 1. 在 **“az30301c-vmss”** 边栏选项卡上，选择 **“实例”** 条目，并验证实例数是否已降低到 2。
 
-    > **注意**： 你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
+    > **注意**：你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
 
 1. 在 **“az30301c-vmss”** 边栏选项卡上，选择 **“缩放”**。 
 
@@ -671,7 +685,7 @@ Windows Server 管理员凭据
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“实例”** 条目，然后在 **“az30301c-vmss \| 实例”** 边栏选项卡上，观察将现有实例替换为所需大小的新实例的流程。
 
-    > **注意**： 你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
+    > **注意**：你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
 
 1. 等待实例更新并运行。
 
@@ -688,17 +702,17 @@ Windows Server 管理员凭据
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“实例”** 条目，然后在 **“az30301c-vmss \| 实例”** 边栏选项卡，观察现有实例的更新过程。
 
-    > **注意**： 上一步中连接的磁盘是原始磁盘。在使用它之前，需要创建一个分区，对其进行格式化并装载。为此，你将通过自定义脚本扩展将 PowerShell 脚本部署到 Azure VM 规模集实例。但是，首先，你需要将其删除。
+    > **注意**：上一步中连接的磁盘是原始磁盘。在使用它之前，需要创建一个分区，对其进行格式化并装载。为此，你将通过自定义脚本扩展将 PowerShell 脚本部署到 Azure VM 规模集实例。但是，首先，你需要将其删除。
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“扩展”**，在 **“az30301c-vmss \| 扩展”** 边栏选项卡中，选择 **“customScriptExtension”** 条目，然后在 **“扩展”** 边栏选项卡中，选择 **“卸载”**。
 
-    > **注意**： 等待卸载完成。
+    > **注意**：等待卸载完成。
 
 1. 在 Azure 门户中，导航到 **“az30301c-labRG”** 资源组边栏选项卡，并在资源列表中选择“存储帐户”资源。 
 
 1. 在“存储帐户”边栏选项卡中，选择 **“容器”**，然后选择 **“+ 容器”**。 
 
-1. 在 **“新建容器”** 边栏选项卡中，指定以下设置（将其他设置保留为默认值）并选择  **“创建”**：
+1. 在 **“新建容器”** 边栏选项卡中，指定以下设置（将其他设置保留为默认值）并选择 **“创建”**：
 
     | 设置 | 数值 | 
     | --- | --- |
@@ -713,7 +727,7 @@ Windows Server 管理员凭据
 
 1. 在 Azure 门户中，导航回到 **“az30301c-vmss”** 虚拟机规模集边栏选项卡。 
 
-1. 在  **“az30301c-vmss”** 边栏选项卡中，选择  **“扩展”**，在  **“az30301c-vmss \| 扩展”** 边栏选项卡中，选择  **“+ 添加”**，然后选择 **“扩展”** 边栏选项卡中的 **“customScriptExtension”** 条目。
+1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“扩展”**，在 **“az30301c-vmss \| 扩展”** 边栏选项卡中，选择 **“+ 添加”**，然后选择 **“扩展”** 边栏选项卡中的 **“customScriptExtension”** 条目。
 
 1. 在 **“新建资源”** 边栏选项卡中，选择 **“自定义脚本扩展”**，然后选择 **“创建”**。
 
@@ -721,27 +735,27 @@ Windows Server 管理员凭据
 
 1. 在 **“存储帐户”** 边栏选项卡中，选择你将 **“az30301e-configure_VMSS_with_data_disk.ps1”** 脚本上传其中的存储帐户的名称，在 **“容器”** 边栏选项卡中，选择 **“脚本”**，在 **“脚本”** 边栏选项卡中，选择 **“az30301e-configure_VMSS_with_data_disk.ps1”**，然后选择 **“选择”**。 
 
-1. 返回到 **“安装扩展”** 边栏选项卡，选择  **“确定”**。
+1. 返回到 **“安装扩展”** 边栏选项卡，选择 **“确定”**。
 
 1. 在 **“az30301c-vmss”** 边栏选项卡中，选择 **“实例”** 条目，然后在 **“az30301c-vmss | 实例”** 边栏选项卡中，观察现有实例的更新过程。
 
-    > **注意**： 你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
+    > **注意**：你可能需要刷新 **“az30301c-vmss \| 实例”** 边栏选项卡。
 
 
 #### 任务 3：删除练习中部署的 Azure 资源
 
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301c-')]".name --output tsv
    ```
 
-    > **注意**： 验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
+    > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
 
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
-   ```sh
+   ```Bash
    az group list --query "[?starts_with(name,'az30301c-')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
-
+   
 1. 关闭“Cloud Shell”窗格。

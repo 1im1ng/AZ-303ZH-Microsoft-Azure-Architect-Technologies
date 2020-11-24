@@ -1,17 +1,17 @@
----
+﻿---
 lab:
-    title: '7：管理 Azure 基于角色的访问控制'
+    title: '7: 管理 Azure 基于角色的访问控制'
     module: '模块 7：实现和管理 Azure 治理'
 ---
 
-# 实验室: 管理 Azure 基于角色的访问控制
+# 实验室：管理 Azure 基于角色的访问控制
 # 学生实验室手册
 
-## 实验场景
+## 实验室场景
 
 随着 Azure Active Directory (Azure AD) 成为标识管理环境不可或缺的一部分，Adatum 企业体系结构团队还必须确定最佳的授权方法。在对 Azure 资源进行访问控制的上下文中，这种方法必须使用 Azure 基于角色的访问控制 (RBAC)。Azure RBAC 是基于 Azure 资源管理器生成的授权系统，可提供精细的 Azure 资源访问管理。
 
-Azure RBAC 的关键概念是角色分配。角色分配包括三个要素：安全主体、角色定义和作用域。安全主体是表示请求访问 Azure 资源的用户、组、服务主体或托管标识的对象。角色定义是角色分配授权的操作（例如读取、写入或删除）的集合。角色可以是一般性的，也可以是特定于资源的。Azure 包括四个内置的一般角色（所有者、参与者、读取者和用户访问管理员）和大量特定于资源的内置角色（例如虚拟机参与者，其中包括创建和管理 Azure 虚拟机的权限）。还可以定义自定义角色。作用域是访问权限适用的资源集。作用域可以设置在多个级别：管理组、订阅、资源组或资源。作用域以父子关系构建。
+Azure RBAC 的关键概念是角色分配。角色分配包括三个要素：安全主体、角色定义和作用域。安全主体是表示请求访问 Azure 资源的用户、组、服务主体或托管标识的对象。角色定义是角色分配授权的操作（例如读取、写入或删除）的集合。角色可以是一般性的，也可以是特定于资源的。Azure 包括四个内置的一般角色（所有者、参与者、读取者和用户访问管理员）和大量特定于资源的内置角色（例如虚拟机参与者，其中包括创建和管理 Azure 虚拟机的权限）。还可以定义自定义角色。作用域是访问权限适用的资源集。作用域可以设置在多个级别：管理组、订阅、资源组或资源。作用域采用父子关系结构。
 
 Adatum 企业体系结构团队希望使用自定义的基于角色的访问控制角色来测试 Azure 管理的委派。为了开始评估，团队打算创建一个自定义角色，用来提供对 Azure 虚拟机的受限访问。 
   
@@ -25,18 +25,18 @@ Adatum 企业体系结构团队希望使用自定义的基于角色的访问控�
 -  分配自定义 RBAC 角色
 
 
-## 实验环境
+## 实验室环境
   
 Windows Server 管理员凭据
 
--  用户名：**Student**
+-  用户名： **Student**
 
 -  密码：**Pa55w.rd1234**
 
 预计用时：60 分钟
 
 
-## 实验文件
+## 实验室文件
 
 -  \\\\AZ303\\AllFiles\\Labs\\11\\azuredeploy30311suba.json
 
@@ -60,7 +60,7 @@ Windows Server 管理员凭据
 
 #### 任务 1：使用 Azure 资源管理器模板部署 Azure VM
 
-1. 在实验室计算机上，启动 Web 浏览器，导航至 [Azure 门户](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
+1. 在实验室计算机上，启动 Web 浏览器，导航至 [“Azure 门户”](https://portal.azure.com)，然后通过提供要在本实验中使用的订阅中的所有者角色的用户帐户凭据来登录。
 
 1. 在 Azure 门户中，通过直接选择搜索文本框右侧的工具栏图标打开 **“Cloud Shell”** 窗格。
 
@@ -82,7 +82,7 @@ Windows Server 管理员凭据
      -rgName 'az30311a-labRG'
    ```
 
-      > **注**：若要确定可预配 Azure VM 的 Azure 区域，请参阅 [**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
+      > **备注**：若要标识可在其中预配 Azure VM 的 Azure 区域，请参阅[**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311rga.json**。
 
@@ -131,7 +131,7 @@ Windows Server 管理员凭据
    (Get-AzureADUser -Filter "MailNickName eq 'az30311aaduser1'").UserPrincipalName
    ```
 
-      > **注**：记录新创建的 Azure AD 用户的用户主体名称。你将在本实验室的后面需要它。
+      > **备注**：记录新创建的 Azure AD 用户的用户主体名称。稍后将在本实验室用到它。
 
 1. 关闭“Cloud Shell”窗格。
 
@@ -164,7 +164,7 @@ Windows Server 管理员凭据
 1. 在 **“虚拟机”** 边栏选项卡中，查看可通过 RBAC 委派的管理操作列表。请注意，它们包括**取消分配虚拟机**和**启动虚拟机**操作。
 
 
-#### 任务 2：在 Azure AD 租户中创建自定义 RBAC 角色
+#### 任务 2： 在 Azure AD 租户中创建自定义 RBAC 角色
 
 1. 在实验室计算机中打开文件 **“\\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json”** 并审查其内容：
 
@@ -191,14 +191,14 @@ Windows Server 管理员凭据
 
 1. 在“Cloud Shell”窗格中，将 Azure 资源管理器模板 **“\\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json”** 上传至主目录。
 
-1. 在“Cloud Shell”窗格中运行下列命令，使用 Azure 订阅的 ID 值替换`SUBSCRIPTION_ID` 占位符：
+1. 在“Cloud Shell”窗格中运行下列命令，使用 Azure 订阅的 ID 值替换 `SUBSCRIPTION_ID` 占位符：
 
    ```powershell
    $subscription_id = (Get-AzContext).Subscription.id
    (Get-Content -Path $HOME/roledefinition30311.json) -Replace 'SUBSCRIPTION_ID', "$subscription_id" | Set-Content -Path $HOME/roledefinition30311.json
    ```
 
-1. 在“Cloud Shell”窗格中运行下列命令，以验证已使用 Azure 订阅的 ID 值替换`SUBSCRIPTION_ID`占位符：
+1. 在“Cloud Shell”窗格中运行下列命令，以验证已使用 Azure 订阅的 ID 值替换 `SUBSCRIPTION_ID` 占位符：
 
    ```powershell
    Get-Content -Path $HOME/roledefinition30311.json
@@ -219,7 +219,7 @@ Windows Server 管理员凭据
 1. 关闭“Cloud Shell”窗格。
 
 
-### 练习2：分配并测试自定义 RBAC 角色
+### 练习 2：分配并测试自定义 RBAC 角色
   
 本练习的主要任务如下：
 
@@ -247,7 +247,7 @@ Windows Server 管理员凭据
 
 #### 任务 2：测试 RBAC 角色分配
 
-1. 在实验室计算机中启动新的私有 Web 浏览器会话，导航到“Azure 门户”[](https://portal.azure.com)，然后使用 **“az30311aaduser1”** 用户帐户和 **“Pa55w.rd1234”** 密码登录。
+1. 在实验室计算机中启动新的私有 Web 浏览器会话，导航到 [“Azure 门户”](https://portal.azure.com)，然后使用 **“az30311aaduser1”** 用户帐户和 **“Pa55w.rd1234”** 密码登录。
 
     > **注意**：确保使用之前在本实验中前记录的用户主体名为 **“az30311aaduser1”** 的用户帐户。
 
@@ -255,14 +255,16 @@ Windows Server 管理员凭据
 
 1. 在 Azure 门户中，导航到**所有资源**边栏选项卡。请注意，只能看到 **“az30311a-vm0”** 及其托管磁盘。
 
-1. 在 Azure 门户中，请导航到**az30311a-vm0**边栏选项卡。尝试停止虚拟机。查看通知区域中的错误消息，并注意，此操作会失败，因为当前用户无权执行此操作。
+1. 在 Azure 门户中，请导航到 **az30311a-vm0** 边栏选项卡。尝试停止虚拟机。查看通知区域中的错误消息，并注意到此操作失败了，因为当前用户无权执行此操作。
 
 1. 重新启动虚拟机并验证操作是否已成功完成。
+
+1. 关闭私有 Web 浏览器会话。
 
 
 #### 任务 3：删除实验室中部署的 Azure 资源
 
-1. 在实验室计算机上显示 Azure 门户的浏览器窗口中，在“Cloud Shell”窗格中启动 PowerShell 会话。
+1. 在实验室计算机上显示 Azure 门户的现有浏览器窗口中，在“Cloud Shell”窗格中启动 PowerShell 会话。
 
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
@@ -279,3 +281,11 @@ Windows Server 管理员凭据
    ```
 
 1. 关闭“Cloud Shell”窗格。
+
+1. 在 Azure 门户中，导航到与你的 Azure 订阅关联的 Azure Active Directory 租户的 **“用户”** 边栏选项卡。
+
+1. 在用户帐户列表中，依次选择代表 **“az30311aaduser1”** 用户帐户的条目、工具栏中的省略号图标、 **“删除用户”**，然后在提示确认时选择 **“是”**。  
+
+1. 在 Azure 门户中，导航到显示 Azure 订阅属性的边栏选项卡，选择 **“访问控制 (IAM)”** 条目，然后选择 **“角色”**。
+
+1. 在角色列表中，选择 **“虚拟机操作员(自定义)”** 条目，然后选择 **“删除”**，在提示确认时选择 **“是”**。
