@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '9: 使用 Azure Site Recovery 保护 Hyper-V VM'
     module: '模块 9：在 Azure 中管理工作负载'
