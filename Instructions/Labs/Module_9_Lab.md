@@ -171,7 +171,7 @@ Windows Server 管理员凭据
 
 1. 在到 **“az30307a-vm1”** 的虚拟机连接窗口，使用新设置的密码登录。
 
-1. 在到 **“az30307a-vm1”** 的虚拟机连接窗口中，启动 Windows PowerShell，然后在 **“管理员：Windows PowerShell”**窗口运行以下命令来设置计算机名。 
+1. 在到 **“az30307a-vm1”** 的虚拟机连接窗口中，启动 Windows PowerShell，然后在 **“管理员：Windows PowerShell”** 窗口运行以下命令来设置计算机名。 
 
    ```powershell
    Rename-Computer -NewName 'az30307a-vm1' -Restart
