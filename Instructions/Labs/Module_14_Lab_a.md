@@ -1,7 +1,7 @@
 ---
 lab:
-    title: '12A：借助暂存槽位实现 Azure 应用服务 Web 应用'
-    module: '模块 12：实现应用程序基础结构'
+    title: '14A：借助暂存槽位实现 Azure 应用服务 Web 应用'
+    module: '模块 14：实现应用程序基础结构'
 ---
 
 # 实验室：借助暂存槽位实现 Azure 应用服务 Web 应用
@@ -64,14 +64,14 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 
     >**注意**：如果这是你第一次打开 **“Cloud Shell”**，会看到 **“未装载任何存储”** 消息，请选择你在本实验室中使用的订阅，然后选择 **“创建存储”**。 
 
-1. 在“Cloud Shell”窗格中运行以下命令，以新建名为 **az30305a1** 的目录，并将其设置为当前目录：
+1. 在“Cloud Shell”窗格中运行以下命令，以新建名为 **az30314a1** 的目录，并将其设置为当前目录：
 
    ```sh
-   mkdir az30305a1
-   cd ~/az30305a1/
+   mkdir az30314a1
+   cd ~/az30314a1/
    ```
 
-1. 在“Cloud Shell”窗格中运行以下命令，将示例应用存储库克隆到 **az30305a1** 目录：
+1. 在“Cloud Shell”窗格中运行以下命令，将示例应用存储库克隆到 **az30314a1** 目录：
 
    ```sh
    REPO=https://github.com/Azure-Samples/html-docs-hello-world.git
@@ -82,8 +82,8 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行以下命令，以配置部署用户：
 
    ```sh
-   USERNAME=az30305user$RANDOM
-   PASSWORD=az30305pass$RANDOM
+   USERNAME=az30314user$RANDOM
+   PASSWORD=az30314pass$RANDOM
    az webapp deployment user set --user-name $USERNAME --password $PASSWORD 
    echo $USERNAME
    echo $PASSWORD
@@ -96,21 +96,21 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 
    ```sh
    LOCATION='<location>'
-   RGNAME='az30305a-labRG'
+   RGNAME='az30314a-labRG'
    az group create --location $LOCATION --resource-group $RGNAME
    ```
 
 1. 在“Cloud Shell”窗格中，运行以下命令以新建应用服务计划：
 
    ```sh
-   SPNAME=az30305asp$LOCATION$RANDOM
+   SPNAME=az30314asp$LOCATION$RANDOM
    az appservice plan create --name $SPNAME --resource-group $RGNAME --location $LOCATION --sku S1
    ```
 
 1. 在“Cloud Shell”窗格中运行下列命令，以新建启用了 Git 的应用服务 Web 应用：
 
    ```sh
-   WEBAPPNAME=az30305$RANDOM$RANDOM
+   WEBAPPNAME=az30314$RANDOM$RANDOM
    az webapp create --name $WEBAPPNAME --resource-group $RGNAME --plan $SPNAME --deployment-local-git
    ```
 
@@ -178,10 +178,10 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 
 1. 在 Azure 门户中，通过直接选择搜索文本框右侧的工具栏图标打开 **“Cloud Shell”** 窗格。
 
-1. 在“Cloud Shell”窗格中运行以下命令，以确保当前设置 **az30305a1/html-docs-hello-world** 作为当前目录：
+1. 在“Cloud Shell”窗格中运行以下命令，以确保当前设置 **az30314a1/html-docs-hello-world** 作为当前目录：
 
    ```sh
-   cd ~/az30305a1/html-docs-hello-world
+   cd ~/az30314a1/html-docs-hello-world
    ```
 
 1. 在“Cloud Shell”窗格中，运行以下命令以启动内置编辑器：
@@ -206,8 +206,8 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行下列命令，以指定必需的全局 git 配置设置：
 
    ```sh
-   git config --global user.email "user@az30305.com"
-   git config --global user.name "user az30305"
+   git config --global user.email "user@az30314.com"
+   git config --global user.name "user az30314"
    ```
 
 1. 在“Cloud Shell”窗格中运行以下命令，将本地应用的更改提交到主分支：
@@ -220,8 +220,8 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行以下命令，以检索应用服务 Web 应用新建的暂存槽位的发布 URL：
 
    ```sh
-   RGNAME='az30305a-labRG'
-   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30305')]".name --output tsv)
+   RGNAME='az30314a-labRG'
+   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30314')]".name --output tsv)
    SLOTNAME='staging'
    URLSTAGING=$(az webapp deployment list-publishing-credentials --name $WEBAPPNAME --slot $SLOTNAME --resource-group $RGNAME --query scmUri --output tsv)
    ```
@@ -273,8 +273,8 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行以下命令，以验证设置代表目标 Web 应用及其通讯组名称的变量：
 
    ```sh
-   RGNAME='az30305a-labRG'
-   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30305')]".name --output tsv)
+   RGNAME='az30314a-labRG'
+   WEBAPPNAME=$(az webapp list --resource-group $RGNAME --query "[?starts_with(name,'az30314')]".name --output tsv)
    ```
 
 1. 在“Cloud Shell”窗格中数次运行以下命令，以确定两个槽位之间的流量分配情况。
@@ -290,7 +290,7 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
    ```sh
-   az group list --query "[?starts_with(name,'az30305')]".name --output tsv
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv
    ```
 
     > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
@@ -298,13 +298,13 @@ Adatum 体系结构团队希望将 Azure 应用服务 Web 应用与部署槽位�
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
    ```sh
-   az group list --query "[?starts_with(name,'az30305')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
-1. 在“Cloud Shell”窗格中，运行下列命令以删除 **“az30305a1”** 目录：
+1. 在“Cloud Shell”窗格中，运行下列命令以删除 **“az30314a1”** 目录：
 
    ```sh
-   rm -r -f ~/az30305a1
+   rm -r -f ~/az30314a1
    ```
    
 1. 关闭“Cloud Shell”窗格。

@@ -1,7 +1,7 @@
 ---
 lab:
-    title: '7: 管理 Azure 基于角色的访问控制'
-    module: '模块 7：实现和管理 Azure 治理'
+    title: '10: 管理 Azure 基于角色的访问控制'
+    module: '模块 10：实现和管理 Azure 治理'
 ---
 
 # 实验室：管理 Azure 基于角色的访问控制
@@ -38,13 +38,13 @@ Windows Server 管理员凭据
 
 ## 实验室文件
 
--  \\\\AZ303\\AllFiles\\Labs\\11\\azuredeploy30311suba.json
+-  \\\\AZ303\\AllFiles\\Labs\\10\\azuredeploy30310suba.json
 
--  \\\\AZ303\\AllFiles\\Labs\\11\\azuredeploy30311rga.json
+-  \\\\AZ303\\AllFiles\\Labs\\10\\azuredeploy30310rga.json
 
--  \\\\AZ303\\AllFiles\\Labs\\11\\azuredeploy30311rga.parameters.json
+-  \\\\AZ303\\AllFiles\\Labs\\10\\azuredeploy30310rga.parameters.json
 
--  \\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json
+-  \\\\AZ303\\AllFiles\\Labs\\10\\roledefinition30310.json
 
 
 ## 说明
@@ -68,7 +68,7 @@ Windows Server 管理员凭据
 
     >**注意**：如果这是你第一次打开 **“Cloud Shell”**，会看到 **“未装载任何存储”** 消息，请选择你在本实验室中使用的订阅，然后选择 **“创建存储”**。 
 
-1. 在“Cloud Shell”窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311suba.json** 上传到 Cloud Shell 主目录中。
+1. 在“Cloud Shell”窗格的工具栏中，选择 **“上传/下载文件”** 图标，在下拉菜单中选择 **“上传”**，然后将文件 **\\\\AZ303\\AllFiles\Labs\\10\\azuredeploy30310suba.json** 上传到 Cloud Shell 主目录中。
 
 1. 在 Cloud Shell 窗格中，通过运行以下命令创建资源组（用订阅中可用于部署 Azure VM 且最接近实验室计算机位置的 Azure 区域的名称替换 `<Azure region>` 占位符）：
 
@@ -76,26 +76,26 @@ Windows Server 管理员凭据
    $location = '<Azure region>'
    New-AzSubscriptionDeployment `
      -Location $location `
-     -Name az30311subaDeployment `
-     -TemplateFile $HOME/azuredeploy30311suba.json `
+     -Name az30310subaDeployment `
+     -TemplateFile $HOME/azuredeploy30310suba.json `
      -rgLocation $location `
-     -rgName 'az30311a-labRG'
+     -rgName 'az30310a-labRG'
    ```
 
       > **备注**：若要标识可在其中预配 Azure VM 的 Azure 区域，请参阅[**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
 
-1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板 **\\\\AZ303\\AllFiles\Labs\\11\\azuredeploy30311rga.json**。
+1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器模板 **\\\\AZ303\\AllFiles\Labs\\10\\azuredeploy30310rga.json**。
 
-1. 在“Cloud Shell”窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFilesLabs\\11\\azuredeploy30311rga.parameters.json**。
+1. 在“Cloud Shell”窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFilesLabs\\10\\azuredeploy30310rga.parameters.json**。
 
 1. 在“Cloud Shell”窗格中运行以下命令，以部署将在本实验室中使用的运行 Windows Server 2019 的 Azure VM：
 
    ```powershell
    New-AzResourceGroupDeployment `
-     -Name az30311rgaDeployment `
-     -ResourceGroupName 'az30311a-labRG' `
-     -TemplateFile $HOME/azuredeploy30311rga.json `
-     -TemplateParameterFile $HOME/azuredeploy30311rga.parameters.json `
+     -Name az30310rgaDeployment `
+     -ResourceGroupName 'az30310a-labRG' `
+     -TemplateFile $HOME/azuredeploy30310rga.json `
+     -TemplateParameterFile $HOME/azuredeploy30310rga.parameters.json `
      -AsJob
    ```
 
@@ -122,13 +122,13 @@ Windows Server 管理员凭据
    $passwordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
    $passwordProfile.Password = 'Pa55w.rd1234'
    $passwordProfile.ForceChangePasswordNextLogin = $false
-   New-AzureADUser -AccountEnabled $true -DisplayName 'az30311aaduser1' -PasswordProfile $passwordProfile -MailNickName 'az30311aaduser1' -UserPrincipalName "az30311aaduser1@$domainName"
+   New-AzureADUser -AccountEnabled $true -DisplayName 'az30310aaduser1' -PasswordProfile $passwordProfile -MailNickName 'az30310aaduser1' -UserPrincipalName "az30310aaduser1@$domainName"
    ```
 
 1. 在 Cloud Shell 窗格中，运行下列命令以标识新创建的 Azure AD 用户的用户主体名称：
 
    ```powershell
-   (Get-AzureADUser -Filter "MailNickName eq 'az30311aaduser1'").UserPrincipalName
+   (Get-AzureADUser -Filter "MailNickName eq 'az30310aaduser1'").UserPrincipalName
    ```
 
       > **备注**：记录新创建的 Azure AD 用户的用户主体名称。稍后将在本实验室用到它。
@@ -147,11 +147,11 @@ Windows Server 管理员凭据
 
 #### 任务 1：确定通过 RBAC 委派的操作
 
-1. 在 Azure 门户中导航到 **“az30311a-labRG”** 边栏选项卡。
+1. 在 Azure 门户中导航到 **“az30310a-labRG”** 边栏选项卡。
 
-1. 在 **“az30311a-LabRG”** 边栏选项卡中选择 **“访问控制 (IAM)”**。
+1. 在 **“az30310a-LabRG”** 边栏选项卡中选择 **“访问控制 (IAM)”**。
 
-1. 在 **“az30311a-labRG - 访问控制 (IAM)”** 边栏选项卡中，选择 **“角色”**。
+1. 在 **“az30310a-labRG - 访问控制 (IAM)”** 边栏选项卡中，选择 **“角色”**。
 
 1. 在 **“角色”** 边栏选项卡中选择 **“所有者”**。
 
@@ -166,7 +166,7 @@ Windows Server 管理员凭据
 
 #### 任务 2： 在 Azure AD 租户中创建自定义 RBAC 角色
 
-1. 在实验室计算机中打开文件 **“\\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json”** 并审查其内容：
+1. 在实验室计算机中打开文件 **“\\\\AZ303\\AllFiles\\Labs\\10\\roledefinition30310.json”** 并审查其内容：
 
    ```json
    {
@@ -189,25 +189,25 @@ Windows Server 管理员凭据
 
 1. 在实验室计算机显示 Azure 门户的浏览器窗口中，启动 **“Cloud Shell”** 内的 **“PowerShell”** 会话。 
 
-1. 在“Cloud Shell”窗格中，将 Azure 资源管理器模板 **“\\\\AZ303\\AllFiles\\Labs\\11\\roledefinition30311.json”** 上传至主目录。
+1. 在“Cloud Shell”窗格中，将 Azure 资源管理器模板 **“\\\\AZ303\\AllFiles\\Labs\\10\\roledefinition30310.json”** 上传至主目录。
 
 1. 在“Cloud Shell”窗格中运行下列命令，使用 Azure 订阅的 ID 值替换 `SUBSCRIPTION_ID` 占位符：
 
    ```powershell
    $subscription_id = (Get-AzContext).Subscription.id
-   (Get-Content -Path $HOME/roledefinition30311.json) -Replace 'SUBSCRIPTION_ID', "$subscription_id" | Set-Content -Path $HOME/roledefinition30311.json
+   (Get-Content -Path $HOME/roledefinition30310.json) -Replace 'SUBSCRIPTION_ID', "$subscription_id" | Set-Content -Path $HOME/roledefinition30310.json
    ```
 
 1. 在“Cloud Shell”窗格中运行下列命令，以验证已使用 Azure 订阅的 ID 值替换 `SUBSCRIPTION_ID` 占位符：
 
    ```powershell
-   Get-Content -Path $HOME/roledefinition30311.json
+   Get-Content -Path $HOME/roledefinition30310.json
    ```
 
 1. 在 Cloud Shell 窗格中，运行下列命令以创建自定义角色定义：
 
    ```powershell
-   New-AzRoleDefinition -InputFile $HOME/roledefinition30311.json
+   New-AzRoleDefinition -InputFile $HOME/roledefinition30310.json
    ```
 
 1. 在 Cloud Shell 窗格中，运行下列命令以验证是否已成功创建角色：
@@ -230,11 +230,11 @@ Windows Server 管理员凭据
 
 #### 任务 1：创建 RBAC 角色分配
  
-1. 在 Azure 门户中导航到 **“az30311a-labRG”** 边栏选项卡。
+1. 在 Azure 门户中导航到 **“az30310a-labRG”** 边栏选项卡。
 
-1. 在 **“az30311a-LabRG”** 边栏选项卡中选择 **“访问控制 (IAM)”**。
+1. 在 **“az30310a-LabRG”** 边栏选项卡中选择 **“访问控制 (IAM)”**。
 
-1. 在 **“az30311a-labRG - 访问控制 (IAM)”** 边栏选项卡上，选择 **“+ 添加”**，然后选择 **“添加角色分配”** 选项。
+1. 在 **“az30310a-labRG - 访问控制 (IAM)”** 边栏选项卡上，选择 **“+ 添加”**，然后选择 **“添加角色分配”** 选项。
 
 1. 在 **“添加角色分配”** 边栏选项卡上，指定以下设置（将其他设置保留为现有值）并选择 **“保存”**：
 
@@ -242,20 +242,20 @@ Windows Server 管理员凭据
     | --- | --- |
     | 角色 | **虚拟机操作员（自定义）** |
     | 分配对以下内容的访问权限 | **Azure AD 用户、组或服务主体** |
-    | 选择 | **az30311aaduser1** |
+    | 选择 | **az30310aaduser1** |
 
 
 #### 任务 2：测试 RBAC 角色分配
 
-1. 在实验室计算机中启动新的私有 Web 浏览器会话，导航到 [“Azure 门户”](https://portal.azure.com)，然后使用 **“az30311aaduser1”** 用户帐户和 **“Pa55w.rd1234”** 密码登录。
+1. 在实验室计算机中启动新的私有 Web 浏览器会话，导航到 [“Azure 门户”](https://portal.azure.com)，然后使用 **“az30310aaduser1”** 用户帐户和 **“Pa55w.rd1234”** 密码登录。
 
-    > **注意**：确保使用之前在本实验中前记录的用户主体名为 **“az30311aaduser1”** 的用户帐户。
+    > **注意**：确保使用之前在本实验中前记录的用户主体名为 **“az30310aaduser1”** 的用户帐户。
 
 1. 在 Azure 门户中，导航到 **“资源组”** 边栏选项卡。请注意，你无法看到任何资源组。 
 
-1. 在 Azure 门户中，导航到**所有资源**边栏选项卡。请注意，只能看到 **“az30311a-vm0”** 及其托管磁盘。
+1. 在 Azure 门户中，导航到**所有资源**边栏选项卡。请注意，只能看到 **“az30310a-vm0”** 及其托管磁盘。
 
-1. 在 Azure 门户中，请导航到 **az30311a-vm0** 边栏选项卡。尝试停止虚拟机。查看通知区域中的错误消息，并注意到此操作失败了，因为当前用户无权执行此操作。
+1. 在 Azure 门户中，请导航到 **az30310a-vm0** 边栏选项卡。尝试停止虚拟机。查看通知区域中的错误消息，并注意到此操作失败了，因为当前用户无权执行此操作。
 
 1. 重新启动虚拟机并验证操作是否已成功完成。
 
@@ -269,7 +269,7 @@ Windows Server 管理员凭据
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
    ```powershell
-   Get-AzResourceGroup -Name 'az30311*'
+   Get-AzResourceGroup -Name 'az30310*'
    ```
 
     > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
@@ -277,14 +277,14 @@ Windows Server 管理员凭据
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
    ```powershell
-   Get-AzResourceGroup -Name 'az30311*' | Remove-AzResourceGroup -Force -AsJob
+   Get-AzResourceGroup -Name 'az30310*' | Remove-AzResourceGroup -Force -AsJob
    ```
 
 1. 关闭“Cloud Shell”窗格。
 
 1. 在 Azure 门户中，导航到与你的 Azure 订阅关联的 Azure Active Directory 租户的 **“用户”** 边栏选项卡。
 
-1. 在用户帐户列表中，依次选择代表 **“az30311aaduser1”** 用户帐户的条目、工具栏中的省略号图标、 **“删除用户”**，然后在提示确认时选择 **“是”**。  
+1. 在用户帐户列表中，依次选择代表 **“az30310aaduser1”** 用户帐户的条目、工具栏中的省略号图标、 **“删除用户”**，然后在提示确认时选择 **“是”**。  
 
 1. 在 Azure 门户中，导航到显示 Azure 订阅属性的边栏选项卡，选择 **“访问控制 (IAM)”** 条目，然后选择 **“角色”**。
 

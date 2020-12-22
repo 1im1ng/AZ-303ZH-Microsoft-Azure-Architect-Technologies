@@ -1,7 +1,7 @@
 ---
 lab:
-    title: '12B：配置基于消息的集成体系结构'
-    module: '模块 12：实现应用程序基础结构'
+    title: '14B：配置基于消息的集成体系结构'
+    module: '模块 14：实现应用程序基础结构'
 ---
 
 # 实验室：配置基于消息的集成架构
@@ -85,7 +85,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以创建一个资源组，该资源组将托管你将在本实验中配置的所有资源：
 
    ```sh
-   export RESOURCE_GROUP_NAME='az30309a-labRG'
+   export RESOURCE_GROUP_NAME='az30314b-labRG'
 
    az group create --name "${RESOURCE_GROUP_NAME}" --location "$LOCATION"
    ```
@@ -93,7 +93,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在“Cloud Shell”窗格中运行以下命令，以创建 Azure 存储帐户，该帐户将托管由 Azure Function 处理包含 Blob 的容器：
 
    ```sh
-   export STORAGE_ACCOUNT_NAME="az30309a${PREFIX}"
+   export STORAGE_ACCOUNT_NAME="az30314b${PREFIX}"
 
    export CONTAINER_NAME="workitems"
 
@@ -117,7 +117,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以创建 Application Insights 资源，该资源将监视 Azure Function 处理 blob 并将其密钥存储在一个变量中：
 
    ```sh
-   export APPLICATION_INSIGHTS_NAME="az30309ai${PREFIX}"
+   export APPLICATION_INSIGHTS_NAME="az30314bi${PREFIX}"
 
    az resource create --name "${APPLICATION_INSIGHTS_NAME}" --location "${LOCATION}" --properties '{"Application_Type": "other", "ApplicationId": "function", "Flow_Type": "Redfield"}' --resource-group "${RESOURCE_GROUP_NAME}" --resource-type "Microsoft.Insights/components"
 
@@ -127,7 +127,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以创建 Azure Function，以处理与 Azure Storageblob 的创建相对应的事件：
 
    ```sh
-   export FUNCTION_NAME="az30309f${PREFIX}"
+   export FUNCTION_NAME="az30314f${PREFIX}"
 
    az functionapp create --name "${FUNCTION_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --app-insights "$APPLICATION_INSIGHTS_NAME" --app-insights-key "$APPINSIGHTS_KEY" --storage-account "${STORAGE_ACCOUNT_NAME}" --consumption-plan-location "${LOCATION}" --runtime "dotnet" --functions-version 2
    ```
@@ -172,7 +172,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以重新填充你在上一个任务中使用的变量：
 
    ```sh
-   export RESOURCE_GROUP_NAME='az30309a-labRG'
+   export RESOURCE_GROUP_NAME='az30314b-labRG'
 
    export STORAGE_ACCOUNT_NAME="$(az storage account list --resource-group "${RESOURCE_GROUP_NAME}" --query "[0].name" --output tsv)"
 
@@ -236,11 +236,11 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以标识托管目标资源组及其现有资源的 Azure 区域：
 
    ```sh
-   export RESOURCE_GROUP_NAME_EXISTING='az30309a-labRG'
+   export RESOURCE_GROUP_NAME_EXISTING='az30314b-labRG'
 
    export LOCATION=$(az group list --query "[?name == '${RESOURCE_GROUP_NAME_EXISTING}'].location" --output tsv)
 
-   export RESOURCE_GROUP_NAME='az30309b-labRG'
+   export RESOURCE_GROUP_NAME='az30314c-labRG'
 
    az group create --name "${RESOURCE_GROUP_NAME}" --location $LOCATION
    ```
@@ -248,7 +248,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在“Cloud Shell”窗格中运行以下命令，以创建 Azure 存储帐户，该帐户将托管在此任务中由配置的事件网格订阅使用的容器：
 
    ```sh
-   export STORAGE_ACCOUNT_NAME="az30309bst${PREFIX}"
+   export STORAGE_ACCOUNT_NAME="az30314cst${PREFIX}"
 
    export CONTAINER_NAME="workitems"
 
@@ -276,7 +276,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以创建存储帐户队列，该队列将存储你将在此任务中配置的事件网格订阅生成的消息：
 
    ```sh
-   export QUEUE_NAME="az30309bq${PREFIX}"
+   export QUEUE_NAME="az30314cq${PREFIX}"
 
    az storage queue create --name "${QUEUE_NAME}" --account-name "${STORAGE_ACCOUNT_NAME}" --connection-string "${STORAGE_CONNECTION_STRING}"
    ```
@@ -284,7 +284,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在 Cloud Shell 窗格中，运行以下命令以创建事件网格订阅，以便在 Azure Storage 队列中生成消息，以响应上传到 Azure Storage 帐户中的指定容器的 blob：
 
    ```sh
-   export QUEUE_SUBSCRIPTION_NAME="az30309bqsub${PREFIX}"
+   export QUEUE_SUBSCRIPTION_NAME="az30314cqsub${PREFIX}"
 
    az eventgrid event-subscription create --name "${QUEUE_SUBSCRIPTION_NAME}" --included-event-types 'Microsoft.Storage.BlobCreated' --endpoint "${STORAGE_ACCOUNT_ID}/queueservices/default/queues/${QUEUE_NAME}" --endpoint-type "storagequeue" --source-resource-id "${STORAGE_ACCOUNT_ID}"
    ```
@@ -318,7 +318,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在“Cloud Shell”窗格中运行以下命令，以列出你在本练习中创建的资源组：
 
    ```sh
-   az group list --query "[?starts_with(name,'az30309')]".name --output tsv
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv
    ```
 
     > **注意**：验证输出结果是否仅包含你在本实验室中创建的资源组。在本任务中将删除这个组。
@@ -326,7 +326,7 @@ Adatum 公司有多个 Web 应用程序，可以定期处理上传到本地文�
 1. 在“Cloud Shell”窗格中运行以下命令，以删除在本实验室中创建的资源组
 
    ```sh
-   az group list --query "[?starts_with(name,'az30309')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+   az group list --query "[?starts_with(name,'az30314')]".name --output tsv | xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
    ```
 
 1. 关闭“Cloud Shell”窗格。
