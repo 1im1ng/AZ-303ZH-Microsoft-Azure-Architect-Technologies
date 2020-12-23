@@ -4,7 +4,7 @@
   "parameters": {
     "vnetName": {
       "type": "string",
-      "defaultValue": "az30301a-vnet",
+      "defaultValue": "az30305a-vnet",
       "metadata": {
         "description": "Virtual network name"
       }
@@ -20,14 +20,14 @@
     },
     "nicNamePrefix": {
       "type": "string",
-      "defaultValue": "az30301a-nic",
+      "defaultValue": "az30305a-nic",
       "metadata": {
         "description": "Network interface name prefix"
       }
     },
     "vmNamePrefix": {
       "type": "string",
-      "defaultValue": "az30301a-vm",
+      "defaultValue": "az30305a-vm",
       "metadata": {
         "description": "VM name prefix"
       }
@@ -65,20 +65,20 @@
     }
   },
   "variables": {
-    "availabilitySetName": "az30301a-avset",
+    "availabilitySetName": "az30305a-avset",
     "subnet0Name": "web",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('vnetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnet0Name'))]",
-    "webNetworkSecurityGroupName": "az30301a-web-nsg",
-    "lbname": "az30301a-lb",
-    "lbrule1name": "az303001a-lbruletcp80",
-    "lbbepoolname": "az30301a-bepool",
-    "lbprobename": "az30301a-hp",
+    "webNetworkSecurityGroupName": "az30305a-web-nsg",
+    "lbname": "az30305a-lb",
+    "lbrule1name": "az303005a-lbruletcp80",
+    "lbbepoolname": "az30305a-bepool",
+    "lbprobename": "az30305a-hp",
     "natruleNamePrefix": "[concat(parameters('nicNamePrefix'), '-rdp-')]",
     "lbId": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
     "frontEndIPConfigId": "[concat(variables('lbId'), '/frontendIPConfigurations/loadBalancerFrontend')]",
-    "pipName": "az30301a-pip",
-    "storageAccountName": "[concat('az30001a', uniqueString(subscription().subscriptionId))]",
+    "pipName": "az30305a-pip",
+    "storageAccountName": "[concat('az30005a', uniqueString(subscription().subscriptionId))]",
     "storageAccountType": "Standard_LRS",
     "windowsImage": {
       "publisher": "MicrosoftWindowsServer",

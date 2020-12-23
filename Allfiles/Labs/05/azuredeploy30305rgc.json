@@ -4,7 +4,7 @@
   "parameters": {
     "vmssName": {
       "type": "string",
-      "defaultValue": "az30301c-",
+      "defaultValue": "az30305c-",
       "metadata": {
         "description": "String used as a base for naming resources. Must be 3-57 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
@@ -69,7 +69,7 @@
     "appGwFrontendPort": 80,
     "appGwBackendPort": 80,
     "appGwBePoolName": "[concat(variables('namingPrefix'), 'appGwBepool')]",
-    "storageAccountName": "[concat('az30001c', uniqueString(subscription().subscriptionId))]",
+    "storageAccountName": "[concat('az30005c', uniqueString(subscription().subscriptionId))]",
     "storageAccountType": "[parameters('diskType')]",
     "vmssExtensionName": "customScriptExtension",
     "windowsImage": {

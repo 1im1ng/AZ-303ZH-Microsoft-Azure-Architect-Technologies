@@ -4,14 +4,14 @@
   "parameters": {
     "vnetName": {
       "type": "string",
-      "defaultValue": "az30302a-vnet",
+      "defaultValue": "az30306a-vnet",
       "metadata": {
         "description": "Virtual network name"
       }
     },
     "vmName": {
       "type": "string",
-      "defaultValue": "az30302a-vm0",
+      "defaultValue": "az30306a-vm0",
       "metadata": {
         "description": "VM name"
       }
@@ -52,9 +52,9 @@
     "subnet0Name": "subnet0",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('vnetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnet0Name'))]",
-    "subnet0NetworkSecurityGroupName": "az30302a-web-nsg",
-    "pipName": "az30302a-pip",
-    "nicName": "az30302a-nic",
+    "subnet0NetworkSecurityGroupName": "az30306a-web-nsg",
+    "pipName": "az30306a-pip",
+    "nicName": "az30306a-nic",
     "windowsImage": {
       "publisher": "MicrosoftWindowsServer",
       "offer": "WindowsServer",

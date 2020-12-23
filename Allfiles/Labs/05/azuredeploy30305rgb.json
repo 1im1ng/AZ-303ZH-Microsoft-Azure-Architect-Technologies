@@ -4,7 +4,7 @@
   "parameters": {
     "vmNamePrefix": {
       "type": "string",
-      "defaultValue": "az30301b-vm",
+      "defaultValue": "az30305b-vm",
       "metadata": {
         "description": "VM name prefix"
       }
@@ -51,20 +51,20 @@
     }
   },
   "variables": {
-    "nicNamePrefix": "az30301b-nic",
+    "nicNamePrefix": "az30305b-nic",
     "subnet0Name": "web",
-    "pipName": "az30301b-pip",
-    "vnetName": "az30301b-vnet",
-    "webNetworkSecurityGroupName": "az30301b-web-nsg",
-    "lbName": "az30301b-lb",
+    "pipName": "az30305b-pip",
+    "vnetName": "az30305b-vnet",
+    "webNetworkSecurityGroupName": "az30305b-web-nsg",
+    "lbName": "az30305b-lb",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', variables('vnetName'), variables('subnet0Name'))]",
     "lbId": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
     "frontEndIPConfigId": "[concat(variables('lbId'), '/frontendIPConfigurations/loadBalancerFrontend')]",
     "natruleNamePrefix": "[concat(variables('nicNamePrefix'), '-rdp-')]",
-    "lbbepoolname": "az30301b-bepool",
-    "lbrule1name": "az303001b-lbruletcp80",
-    "lbProbeName": "az30301b-hp",
-    "storageAccountName": "[concat('az30001b', uniqueString(subscription().subscriptionId))]",
+    "lbbepoolname": "az30305b-bepool",
+    "lbrule1name": "az303005b-lbruletcp80",
+    "lbProbeName": "az30305b-hp",
+    "storageAccountName": "[concat('az30005b', uniqueString(subscription().subscriptionId))]",
     "storageAccountType": "Standard_LRS",
     "vmExtensionName": "customScriptExtension",
     "windowsImage": {
