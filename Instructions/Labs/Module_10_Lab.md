@@ -1,4 +1,4 @@
-﻿---
+---
 lab:
     title: '10: 管理 Azure 基于角色的访问控制'
     module: '模块 10：实现和管理 Azure 治理'
