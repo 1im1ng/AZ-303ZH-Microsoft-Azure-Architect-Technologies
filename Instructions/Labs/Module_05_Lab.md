@@ -1,4 +1,4 @@
----
+﻿---
 lab:
     title: '05: 实现高可用性 Azure IaaS 计算体系结构'
     module: '模块 05：实现负载均衡和网络安全'
@@ -48,9 +48,9 @@ Azure 虚拟机规模集使你能够创建和管理一组相同、负载均衡�
   
 Windows Server 管理员凭据
 
--  用户名：**Student**
+-  用户名： **Admin**
 
--  密码：**Pa55w.rd1234**
+-  密码：**Pa55w.rd**
 
 预计用时：120 分钟
 
@@ -72,7 +72,6 @@ Windows Server 管理员凭据
 -  \\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rgc.parameters.json
 
 -  \\AZ303\\AllFiles\\Labs\\05\\az30305e-configure_VMSS_with_data_disk.ps1
-
 
 ## 说明
 
@@ -113,6 +112,7 @@ Windows Server 管理员凭据
    
       > **备注**： 若要标识可在其中预配 Azure VM 的 Azure 区域，请参阅[**https://azure.microsoft.com/zh-cn/regions/offers/**](https://azure.microsoft.com/zh-cn/regions/offers/)
 
+
       > **备注**： 若要识别 Azure 名称以便在设置 **LOCATION** 变量的值时使用，请运行 `az account list-locations --query "[].{name:name}" -o table`。请使用不含空格的表示法，例如 **eastus** 而不是 **US East**。
 
 1. 在 Cloud Shell 窗格中运行以下命令，以创建网络观察程序的实例，为本实验室后面的练习做准备：
@@ -121,6 +121,8 @@ Windows Server 管理员凭据
    az network watcher configure --resource-group NetworkWatcherRG --locations $LOCATION --enabled -o table
    ```
 
+    > **备注**：如果收到指示没有“NetworkWatcherRG”资源组的错误，请从名为 NetworkWatcherRG 的门户创建一个资源组并重新运行该命令。
+       
 1. 在 Cloud Shell 窗格中，运行以下命令以在指定的 Azure 区域创建资源组。
  
    ```Bash
@@ -134,13 +136,13 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rga.parameters.json**。
 
-1. 在 Cloud Shell 窗格中，运行以下命令以将 Azure 负载均衡器基本版及其后端池（由一对托管 Windows Server 2019 数据中心核心的 Azure VM 组成）部署到同一可用性集中：
+1. 在 Cloud Shell 窗格中，运行以下命令以将 Azure 负载均衡器基本版及其后端池（由一对托管 Windows Server 2019 数据中心核心的 Azure VM 组成）部署到同一可用性集中（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
 
    ```Bash
    az deployment group create \
    --resource-group az30305a-labRG \
    --template-file azuredeploy30305rga.json \
-   --parameters @azuredeploy30305rga.parameters.json
+   --parameters @azuredeploy30305rga.parameters.json vmSize=<vm_Size>
    ```
 
     > **注意**： 请等待部署完成后再继续下一个任务。该过程需要约 10 分钟。
@@ -221,7 +223,7 @@ Windows Server 管理员凭据
 
 1. 在 **“az303005a-lbruletcp80”** 边栏选项卡的 **“会话持续性”** 下拉列表中，选择 **“客户端 IP”**，然后选择 **“保存”**。
 
-1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向无会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
+1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向具有会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
    ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
@@ -305,13 +307,13 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rgb.parameters.json**。
 
-1. 在“Cloud Shell”窗格中运行以下命令，部署 Azure 负载均衡器标准版及其后端池，该后端池由跨两个可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成：
+1. 在 Cloud Shell 窗格中运行以下命令，部署 Azure 负载均衡器标准版及其后端池，该后端池由跨两个可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
 
    ```Bash
    az deployment group create \
    --resource-group az30305b-labRG \
    --template-file azuredeploy30305rgb.json \
-   --parameters @azuredeploy30305rgb.parameters.json
+   --parameters @azuredeploy30305rgb.parameters.json vmSize=<vm_Size>
    ```
 
     > **注意**： 请等待部署完成后再继续下一个任务。该过程需要约 10 分钟。
@@ -351,12 +353,12 @@ Windows Server 管理员凭据
     > **注意**： 该列表实际上也与你在上一练习中看到的列表完全相同，通过使用与两个 Azure VM 都连接到的子网相关联的网络安全组来实现网络级保护。但是请记住，由于本例使用了 Azure 负载均衡器标准版 SKU（在使用基本版 SKU 时，NSG 是可选的），HTTP 和 RDP 流量需要网络安全组才能到达后端池 Azure VM。  
     
     > **注意**： 或者，你可以从以下位置查看 **“有效的安全规则”**：
-    - **“az30305a-nic0”** 网络接口边栏选项卡。
-    - **“az30305a-web-nsg”** 网络安全组边栏选项卡 
+    - “az30305b-nic0”****网络接口边栏选项卡。
+    - “az30305b-web-nsg”****网络安全组边栏选项卡 
 
 1. 在 **“网络观察程序”** 边栏选项卡上，选择 **“连接疑难解答”**。
 
-    > **注意**： 目的是验证同一可用性集中两个 Azure VM 的接近度（以网络术语而言）。
+    > **注意**：目的是验证不同区域中（不同 Azure 数据中心内）两个 Azure VM 的接近度（以网络连接而言）。
 
 1. 在 **“网络观察程序 \| 连接疑难解答”** 边栏选项卡上，指定以下设置并选择 **“检查”**：
 
@@ -400,7 +402,7 @@ Windows Server 管理员凭据
 
 1. 在 **“az303005b-lbruletcp80”** 边栏选项卡的 **“会话持续性”** 下拉列表中，选择 **“客户端 IP”**，然后选择 **“保存”**。
 
-1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向无会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
+1. 等待更新完成，然后在 Cloud Shell 窗格中重新运行以下内容，以测试流向具有会话持续性 Azure 负载均衡器后端池中 Azure VM 的 HTTP 流量负载均衡（将 `<lb_IP_address>` 占位符替换为你之前确定的负载均衡器前端 IP 地址）：
 
    ```Bash
    for i in {1..4}; do curl <lb_IP_address>; done
@@ -512,10 +514,10 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rgc.parameters.json**。
 
-1. 在“Cloud Shell”窗格中运行以下命令，部署 Azure 应用程序网关及其后端池，该后端池由跨不同可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成：
+1. 在 Cloud Shell 窗格中，运行以下命令以部署 Azure 应用程序网关，其后端池由一对 Azure VM 组成，这些 VM 跨不同的可用性区域托管 Windows Server 2019 数据中心核心（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
 
    ```
-   az deployment group create --resource-group az30305c-labRG --template-file azuredeploy30305rgc.json --parameters @azuredeploy30305rgc.parameters.json
+   az deployment group create --resource-group az30305c-labRG --template-file azuredeploy30305rgc.json --parameters @azuredeploy30305rgc.parameters.json vmSize= <vm_Size>
    ```
 
     > **注意**： 请等待部署完成后再继续下一个任务。该过程需要约 10 分钟。
@@ -651,7 +653,7 @@ Windows Server 管理员凭据
    ```Bash
    for (( ; ; )); do curl -s <lb_IP_address>?[1-10]; done
    ```
-1. 在 Azure 门户中的 **“az30305c-vmss”** 边栏选项卡上，查看 **“CPU（平均）”** 图表，并验证应用程序网关的 CPU 使用率是否增加到足以触发横向扩展。
+1. 在 Azure 门户中的“az30305c-vmss 概览”****边栏选项卡的“监视”选项卡上，查看“CPU（平均）”****图表，并验证应用程序网关的 CPU 使用率是否增加到足以触发横向扩展。
 
     > **注意**：你可能需要等待几分钟。
 
@@ -702,7 +704,7 @@ Windows Server 管理员凭据
 
 #### 任务 2：缩放 Azure 虚拟机规模集实例的存储资源。
 
-1. 在 **“az30305c-vmss”** 边栏选项卡上，选择 **“磁盘”**，选择 **“+ 添加数据磁盘”**，使用以下设置附加新的托管磁盘（保留其他磁盘的默认值），然后选择 **“保存”**：
+1. 在“az30305c-vmss”****边栏选项卡上，选择“磁盘”****，选择“+ 创建并附加新磁盘”****，使用以下设置附加新的托管磁盘（其他设置保留默认值），然后选择“保存”****：
 
     | 设置 | 值 | 
     | --- | --- |

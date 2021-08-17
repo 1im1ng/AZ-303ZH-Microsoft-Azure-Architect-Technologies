@@ -17,7 +17,8 @@
         "uksouth",
         "westeurope",
         "japaneast",
-        "southeastasia"
+        "southeastasia",
+        "australiaeast"
       ],
       "defaultValue": "eastus",
       "metadata": {
