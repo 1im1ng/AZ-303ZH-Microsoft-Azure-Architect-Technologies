@@ -88,7 +88,7 @@ Windows Server 管理员凭据
 
 1. 在“Cloud Shell”窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFilesLabs\\10\\azuredeploy30310rga.parameters.json**。
 
-1. 在 Cloud Shell 窗格中，运行以下命令以部署运行 Windows Server 2019 的 Azure VM，该 VM 将在本实验室中使用（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
+1. 在 Cloud Shell 窗格中，运行以下命令以部署运行 Windows Server 2019 的 Azure VM，该 VM 将在本实验室中使用（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如`Standard_D2s_v3`）：
 
    ```powershell
    New-AzResourceGroupDeployment `
@@ -152,7 +152,7 @@ Windows Server 管理员凭据
 
 1. 在 **“az30310a-LabRG”** 边栏选项卡中选择 **“访问控制 (IAM)”**。
 
-1. 在“az30310a-labRG - 访问控制(IAM)”****边栏选项卡中，选择“角色(经典)”****。
+1. 在 **“az30310a-labRG - 访问控制(IAM)”** 边栏选项卡中，选择 **“角色(经典)”**。
 
 1. 在 **“角色”** 边栏选项卡中选择 **“所有者”**。
 
@@ -252,7 +252,7 @@ Windows Server 管理员凭据
 
     > **注意**： 确保使用之前在本实验中前记录的用户主体名为 **“az30310aaduser1”** 的用户帐户。
     
-    > 备注****：如果想在登录过程中跳过该帐户的 Microsoft 安全默认值，请使用“暂时跳过(14 天后需要)”**选项。
+    > **备注**：如果想在登录过程中跳过该帐户的 Microsoft 安全默认值，请使用 *“暂时跳过(14 天后需要)”* 选项。
 
 1. 在 Azure 门户中，导航到 **“资源组”** 边栏选项卡。请注意，你无法看到任何资源组。 
 

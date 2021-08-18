@@ -136,7 +136,7 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rga.parameters.json**。
 
-1. 在 Cloud Shell 窗格中，运行以下命令以将 Azure 负载均衡器基本版及其后端池（由一对托管 Windows Server 2019 数据中心核心的 Azure VM 组成）部署到同一可用性集中（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
+1. 在 Cloud Shell 窗格中，运行以下命令以将 Azure 负载均衡器基本版及其后端池（由一对托管 Windows Server 2019 数据中心核心的 Azure VM 组成）部署到同一可用性集中（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如`Standard_D2s_v3`）：
 
    ```Bash
    az deployment group create \
@@ -307,7 +307,7 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rgb.parameters.json**。
 
-1. 在 Cloud Shell 窗格中运行以下命令，部署 Azure 负载均衡器标准版及其后端池，该后端池由跨两个可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
+1. 在 Cloud Shell 窗格中运行以下命令，部署 Azure 负载均衡器标准版及其后端池，该后端池由跨两个可用性区域托管 Windows Server 2019 Datacenter Core 的一对 Azure VM 组成（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如`Standard_D2s_v3`）：
 
    ```Bash
    az deployment group create \
@@ -353,8 +353,8 @@ Windows Server 管理员凭据
     > **注意**： 该列表实际上也与你在上一练习中看到的列表完全相同，通过使用与两个 Azure VM 都连接到的子网相关联的网络安全组来实现网络级保护。但是请记住，由于本例使用了 Azure 负载均衡器标准版 SKU（在使用基本版 SKU 时，NSG 是可选的），HTTP 和 RDP 流量需要网络安全组才能到达后端池 Azure VM。  
     
     > **注意**： 或者，你可以从以下位置查看 **“有效的安全规则”**：
-    - “az30305b-nic0”****网络接口边栏选项卡。
-    - “az30305b-web-nsg”****网络安全组边栏选项卡 
+    - **“az30305b-nic0”** 网络接口边栏选项卡。
+    - **“az30305b-web-nsg”** 网络安全组边栏选项卡 
 
 1. 在 **“网络观察程序”** 边栏选项卡上，选择 **“连接疑难解答”**。
 
@@ -514,7 +514,7 @@ Windows Server 管理员凭据
 
 1. 在 Cloud Shell 窗格中，上传 Azure 资源管理器参数文件 **\\\\AZ303\\AllFiles\\Labs\\05\\azuredeploy30305rgc.parameters.json**。
 
-1. 在 Cloud Shell 窗格中，运行以下命令以部署 Azure 应用程序网关，其后端池由一对 Azure VM 组成，这些 VM 跨不同的可用性区域托管 Windows Server 2019 数据中心核心（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如“Standard_D2s_v3”）：
+1. 在 Cloud Shell 窗格中，运行以下命令以部署 Azure 应用程序网关，其后端池由一对 Azure VM 组成，这些 VM 跨不同的可用性区域托管 Windows Server 2019 数据中心核心（将 `<vm_Size>` 占位符替换为要用于此部署的 Azure VM 的大小，例如`Standard_D2s_v3`）：
 
    ```
    az deployment group create --resource-group az30305c-labRG --template-file azuredeploy30305rgc.json --parameters @azuredeploy30305rgc.parameters.json vmSize= <vm_Size>
@@ -653,7 +653,7 @@ Windows Server 管理员凭据
    ```Bash
    for (( ; ; )); do curl -s <lb_IP_address>?[1-10]; done
    ```
-1. 在 Azure 门户中的“az30305c-vmss 概览”****边栏选项卡的“监视”选项卡上，查看“CPU（平均）”****图表，并验证应用程序网关的 CPU 使用率是否增加到足以触发横向扩展。
+1. 在 Azure 门户中的 **“az30305c-vmss 概览”** 边栏选项卡的“监视”选项卡上，查看 **“CPU（平均）”** 图表，并验证应用程序网关的 CPU 使用率是否增加到足以触发横向扩展。
 
     > **注意**：你可能需要等待几分钟。
 
