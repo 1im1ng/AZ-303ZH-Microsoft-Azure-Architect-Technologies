@@ -69,7 +69,7 @@
     "appGwFrontendPort": 80,
     "appGwBackendPort": 80,
     "appGwBePoolName": "[concat(variables('namingPrefix'), 'appGwBepool')]",
-    "storageAccountName": "[concat('az30005c', uniqueString(subscription().subscriptionId))]",
+    "storageAccountName": "[concat('az30005c', uniqueString(subscription().subscriptionId,resourceGroup().id, deployment().name))]",
     "storageAccountType": "[parameters('diskType')]",
     "vmssExtensionName": "customScriptExtension",
     "windowsImage": {
